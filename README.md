@@ -30,7 +30,7 @@ eslint --format json . | eslint-ignore-inserter
 function example () {
   console.log('Hello')
     // eslint-disable-next-line indent
-    console.log('World!)
+    console.log('World!')
 }
 ```
 

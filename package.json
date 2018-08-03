@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "main": "index.js",
   "license": "MIT",
+  "homepage": "https://github.com/stevenpetryk/eslint-ignore-inserter",
+  "author": "Steven Petryk",
   "scripts": {
     "start": "tsc --watch",
     "prepare": "tsc"
