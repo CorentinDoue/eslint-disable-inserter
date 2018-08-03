@@ -1,7 +1,7 @@
 {
   "name": "eslint-ignore-inserter",
-  "version": "0.1.1",
-  "main": "index.js",
+  "version": "0.1.2",
+  "main": "dist/index.js",
   "license": "MIT",
   "homepage": "https://github.com/stevenpetryk/eslint-ignore-inserter",
   "author": "Steven Petryk",
