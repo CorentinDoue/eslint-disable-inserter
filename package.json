@@ -1,0 +1,25 @@
+{
+  "name": "eslint-ignore-inserter",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "tsc --watch",
+    "prepare": "tsc"
+  },
+  "bin": {
+    "eslint-ignore-inserter": "dist/cli.js"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "get-stdin": "^6.0.0",
+    "meow": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/get-stdin": "^5.0.1",
+    "@types/meow": "^4.0.1",
+    "@types/node": "^10.5.5",
+    "typescript": "^3.0.1"
+  }
+}
