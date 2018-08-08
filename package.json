@@ -7,10 +7,16 @@
   "author": "Steven Petryk",
   "scripts": {
     "start": "tsc --watch",
-    "prepare": "tsc"
+    "prepare": "tsc",
+    "prettier": "prettier **/* --write"
   },
   "bin": {
     "eslint-ignore-inserter": "dist/cli.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn prettier"
+    }
   },
   "dependencies": {
     "chalk": "^2.4.1",
@@ -22,6 +28,8 @@
     "@types/get-stdin": "^5.0.1",
     "@types/meow": "^4.0.1",
     "@types/node": "^10.5.5",
+    "husky": "^1.0.0-rc.13",
+    "prettier": "^1.14.0",
     "typescript": "^3.0.1"
   }
 }

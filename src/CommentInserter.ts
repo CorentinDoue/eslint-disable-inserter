@@ -1,18 +1,18 @@
-import fs from 'fs'
-import * as path from 'path'
-import chalk from 'chalk'
+import fs from "fs"
+import * as path from "path"
+import chalk from "chalk"
 
 export default class CommentInserter {
   dryRun: boolean
 
-  constructor (options: { dryRun: boolean } = { dryRun: false }) {
+  constructor(options: { dryRun: boolean } = { dryRun: false }) {
     this.dryRun = options.dryRun
   }
 
-  insertComments (rules: RulesToIgnore) {
+  insertComments(rules: RulesToIgnore) {
     Object.entries(rules).forEach(([filePath, lines]) => {
       fs.readFile(filePath, (err, data) => {
-        const fileLines = data.toString().split('\n')
+        const fileLines = data.toString().split("\n")
 
         // Increment this as we insert lines
         let offset = 0
@@ -21,8 +21,12 @@ export default class CommentInserter {
           const line = parseInt(lineString, 10)
           const adjustedLine = line - 1 + offset
 
-          const indentation = fileLines[adjustedLine].match(/^\s*/)[0]
-          fileLines.splice(adjustedLine, 0, this._formatRules(indentation, rules))
+          const indentation = fileLines[adjustedLine].match(/^\s*/)![0]
+          fileLines.splice(
+            adjustedLine,
+            0,
+            this._formatRules(indentation, rules),
+          )
           offset++
         })
 
@@ -31,10 +35,10 @@ export default class CommentInserter {
           console.log(
             "%s\n\n%s\n\n",
             chalk.underline.green(relativePath),
-            fileLines.join('\n')
+            fileLines.join("\n"),
           )
         } else {
-          fs.writeFile(filePath, fileLines.join('\n'), (err) => {
+          fs.writeFile(filePath, fileLines.join("\n"), err => {
             if (err) {
               console.error(err)
             }
@@ -44,8 +48,8 @@ export default class CommentInserter {
     })
   }
 
-  _formatRules (indentation: string, rules: Set<string>) {
-    const ruleString = Array.from(rules).join(', ')
+  _formatRules(indentation: string, rules: Set<string>) {
+    const ruleString = Array.from(rules).join(", ")
 
     return `${indentation}// eslint-disable-next-line ${ruleString}`
   }
