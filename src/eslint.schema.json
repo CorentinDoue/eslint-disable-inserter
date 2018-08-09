@@ -1,0 +1,34 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["filePath", "messages"],
+    "properties": {
+      "filePath": {
+        "type": "string"
+      },
+      "messages": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["ruleId", "message", "severity", "line"],
+          "properties": {
+            "ruleId": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "severity": {
+              "type": "number",
+              "enum": [0, 1, 2]
+            },
+            "line": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,18 +1,21 @@
-type FileWithErrors = {
+type ESLintResult = {
   filePath: string
   messages: ESLintMessage[]
+}
+
+type NormalizedResult = {
+  filePath: string
+  messagesByLine: RuleIdsByLine
+}
+
+type RuleIdsByLine = {
+  [lineNumber: number]: Set<string>
 }
 
 type ESLintMessage = {
   ruleId: string
   severity: 0 | 1 | 2
-  line: string
-}
-
-type RulesToIgnore = {
-  [file: string]: {
-    [line: number]: Set<string>
-  }
+  line: number
 }
 
 type Options = {

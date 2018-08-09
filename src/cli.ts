@@ -4,7 +4,7 @@ import getStdin from "get-stdin"
 import meow from "meow"
 import chalk from "chalk"
 
-import start from "./index"
+import start from "."
 
 const cli = meow(
   `
