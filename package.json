@@ -10,6 +10,7 @@
     "start": "tsc --watch",
     "prepare": "yarn run clean-dist && tsc",
     "test": "jest",
+    "test:integration": "jest --config jest.integration.config.js --runInBand",
     "prettier": "prettier . --write"
   },
   "bin": {
