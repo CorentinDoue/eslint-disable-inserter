@@ -26,7 +26,7 @@ const cli = meow(
   },
 )
 
-getStdin().then(stdin => {
+getStdin().then((stdin) => {
   if (!stdin) {
     cli.showHelp()
   }

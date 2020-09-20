@@ -10,7 +10,7 @@
     "start": "tsc --watch",
     "prepare": "yarn run clean-dist && tsc",
     "test": "jest",
-    "prettier": "prettier **/* --write"
+    "prettier": "prettier . --write"
   },
   "bin": {
     "eslint-ignore-inserter": "dist/cli.js"

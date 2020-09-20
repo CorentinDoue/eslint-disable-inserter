@@ -6,13 +6,13 @@ import parseESLintOutput from "./parseESLintOutput"
 import normalizeESLintOutput from "./normalizeESlintOutput"
 import updateFile from "./updateFile"
 
-export default function(rawEslintOutput: string, options: Options) {
+export default function (rawEslintOutput: string, options: Options) {
   try {
     const output = parseESLintOutput(rawEslintOutput)
 
     const normalizedResults = normalizeESLintOutput(output)
 
-    normalizedResults.forEach(result => {
+    normalizedResults.forEach((result) => {
       if (options.dryRun) {
         console.log("dry run for file")
       } else {

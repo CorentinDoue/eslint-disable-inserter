@@ -12,9 +12,9 @@ into your code.
 Say you have the following code, with an indentation violation:
 
 ```js
-function example () {
-  console.log('Hello')
-    console.log('World!')
+function example() {
+  console.log("Hello")
+    console.log("World!")
 }
 ```
 
@@ -27,10 +27,10 @@ eslint --format json . | eslint-ignore-inserter
 ... yields this:
 
 ```js
-function example () {
-  console.log('Hello')
-    // eslint-disable-next-line indent
-    console.log('World!')
+function example() {
+  console.log("Hello")
+  // eslint-disable-next-line indent
+    console.log("World!")
 }
 ```
 

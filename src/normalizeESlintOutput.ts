@@ -1,5 +1,5 @@
-export default function(eslintOutput: ESLintResult[]): NormalizedResult[] {
-  return eslintOutput.map(result => ({
+export default function (eslintOutput: ESLintResult[]): NormalizedResult[] {
+  return eslintOutput.map((result) => ({
     filePath: result.filePath,
     messagesByLine: result.messages.reduce<RuleIdsByLine>(
       (accumulator, current) => {

@@ -9,9 +9,7 @@
     "outDir": "dist",
     "baseUrl": ".",
     "strict": true,
-    "lib": [
-      "es2017"
-    ]
+    "lib": ["es2017"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
