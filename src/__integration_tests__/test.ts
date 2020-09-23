@@ -1,13 +1,13 @@
 import * as fs from "fs-extra"
 import {
-  buildEslintIgnoreInserter,
-  executeEslintIgnoreInserterInExample,
+  buildEslintDisableInserter,
+  executeEslintDisableInserterInExample,
   executeEslintInExample,
   indexTsPath,
   installExampleDependencies,
   legacyJsPath,
-  linkEslintIgnoreInserter,
-  parseEslintIgnores,
+  linkEslintDisableInserter,
+  parseEslintDisables,
 } from "./lib"
 
 describe("Integration test", () => {
@@ -23,8 +23,8 @@ describe("Integration test", () => {
     originalLegacyJsFile = await fs.readFile(legacyJsPath)
 
     await installExampleDependencies()
-    await buildEslintIgnoreInserter()
-    await linkEslintIgnoreInserter()
+    await buildEslintDisableInserter()
+    await linkEslintDisableInserter()
   })
   describe("classical usage", () => {
     beforeAll(async () => {
@@ -32,7 +32,7 @@ describe("Integration test", () => {
         stdout,
         stderr,
         error,
-      } = await executeEslintIgnoreInserterInExample())
+      } = await executeEslintDisableInserterInExample())
       processedIndexTsFile = (await fs.readFile(indexTsPath)).toString()
       processedLegacyJsFile = (await fs.readFile(legacyJsPath)).toString()
     })
@@ -45,10 +45,10 @@ describe("Integration test", () => {
       expect(error).not.toBeDefined()
     })
     it("adds eslint-ignore", async () => {
-      const indexTsEslintIgnores = parseEslintIgnores(processedIndexTsFile)
-      const legacyJsEslintIgnores = parseEslintIgnores(processedLegacyJsFile)
-      expect(indexTsEslintIgnores.length).toEqual(3)
-      expect(legacyJsEslintIgnores.length).toEqual(1)
+      const indexTsEslintDisables = parseEslintDisables(processedIndexTsFile)
+      const legacyJsEslintDisables = parseEslintDisables(processedLegacyJsFile)
+      expect(indexTsEslintDisables.length).toEqual(3)
+      expect(legacyJsEslintDisables.length).toEqual(1)
     })
     it("fix eslint issues", async () => {
       const {
@@ -61,7 +61,7 @@ describe("Integration test", () => {
   })
   describe("dry-run usage", () => {
     beforeAll(async () => {
-      ;({ stdout, stderr, error } = await executeEslintIgnoreInserterInExample(
+      ;({ stdout, stderr, error } = await executeEslintDisableInserterInExample(
         "--dry-run",
       ))
       processedIndexTsFile = (await fs.readFile(indexTsPath)).toString()
@@ -71,11 +71,11 @@ describe("Integration test", () => {
       expect(stderr).toEqual("")
       expect(error).not.toBeDefined()
     })
-    it("doesn't add eslint-ignore", async () => {
-      const indexTsEslintIgnores = parseEslintIgnores(processedIndexTsFile)
-      const legacyJsEslintIgnores = parseEslintIgnores(processedLegacyJsFile)
-      expect(indexTsEslintIgnores.length).toEqual(0)
-      expect(legacyJsEslintIgnores.length).toEqual(0)
+    it("doesn't add eslint-disable", async () => {
+      const indexTsEslintDisables = parseEslintDisables(processedIndexTsFile)
+      const legacyJsEslintDisables = parseEslintDisables(processedLegacyJsFile)
+      expect(indexTsEslintDisables.length).toEqual(0)
+      expect(legacyJsEslintDisables.length).toEqual(0)
     })
   })
 })

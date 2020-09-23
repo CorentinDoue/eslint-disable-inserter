@@ -16,18 +16,18 @@ export const installExampleDependencies = async (): Promise<void> => {
   })
 }
 
-export const buildEslintIgnoreInserter = async (): Promise<void> => {
+export const buildEslintDisableInserter = async (): Promise<void> => {
   console.log("Build eslint-ignore-inserter...")
   await asyncExec("yarn tsc")
 }
 
-export const linkEslintIgnoreInserter = async (): Promise<void> => {
+export const linkEslintDisableInserter = async (): Promise<void> => {
   console.log("Link eslint-ignore-inserter to example...")
   await asyncExec("yarn link")
   await asyncExec("yarn link eslint-ignore-inserter", { cwd: pathToExample })
 }
 
-export const executeEslintIgnoreInserterInExample = async (
+export const executeEslintDisableInserterInExample = async (
   options: string = "",
 ): Promise<{
   stdout?: string
@@ -61,22 +61,22 @@ export const executeEslintInExample = async (): Promise<{
   }
 }
 
-type EslintIgnore = {
+type EslintDisable = {
   line: number
   errors: string[]
 }
-export const parseEslintIgnores = (file: string): EslintIgnore[] => {
+export const parseEslintDisables = (file: string): EslintDisable[] => {
   const lines = file.split("\n")
   const reg = /\/\/ eslint-disable-next-line (.*)/
-  return lines.reduce((eslintIgnores: EslintIgnore[], line, index) => {
-    const eslintIgnoreInLine = reg.exec(line)
-    if (eslintIgnoreInLine) {
-      const errors = eslintIgnoreInLine[1]
-      eslintIgnores.push({
+  return lines.reduce((eslintDisables: EslintDisable[], line, index) => {
+    const eslintDisableInLine = reg.exec(line)
+    if (eslintDisableInLine) {
+      const errors = eslintDisableInLine[1]
+      eslintDisables.push({
         line: index + 1,
         errors: errors.split(",").map((error) => error.trim()),
       })
     }
-    return eslintIgnores
+    return eslintDisables
   }, [])
 }
