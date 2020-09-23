@@ -47,13 +47,27 @@ export const executeEslintIgnoreInserterInExample = async (
   }
 }
 
+export const executeEslintInExample = async (): Promise<{
+  stderr?: string
+  error?: Error
+}> => {
+  try {
+    const { stderr } = await asyncExec(`yarn lint`, {
+      cwd: pathToExample,
+    })
+    return { stderr }
+  } catch (error) {
+    return error
+  }
+}
+
 type EslintIgnore = {
   line: number
   errors: string[]
 }
 export const parseEslintIgnores = (file: string): EslintIgnore[] => {
   const lines = file.split("\n")
-  const reg = /\/\/ eslint-ignore-next-line (.*)/
+  const reg = /\/\/ eslint-disable-next-line (.*)/
   return lines.reduce((eslintIgnores: EslintIgnore[], line, index) => {
     const eslintIgnoreInLine = reg.exec(line)
     if (eslintIgnoreInLine) {

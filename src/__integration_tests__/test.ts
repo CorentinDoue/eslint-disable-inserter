@@ -2,6 +2,7 @@ import * as fs from "fs-extra"
 import {
   buildEslintIgnoreInserter,
   executeEslintIgnoreInserterInExample,
+  executeEslintInExample,
   indexTsPath,
   installExampleDependencies,
   legacyJsPath,
@@ -48,6 +49,14 @@ describe("Integration test", () => {
       const legacyJsEslintIgnores = parseEslintIgnores(processedLegacyJsFile)
       expect(indexTsEslintIgnores.length).toEqual(3)
       expect(legacyJsEslintIgnores.length).toEqual(1)
+    })
+    it("fix eslint issues", async () => {
+      const {
+        stderr: eslintStderr,
+        error: eslintError,
+      } = await executeEslintInExample()
+      expect(eslintStderr).toEqual("")
+      expect(eslintError).not.toBeDefined()
     })
   })
   describe("dry-run usage", () => {
