@@ -74,7 +74,7 @@ describe("Integration test", () => {
     it("doesn't add eslint-disable", async () => {
       const indexTsEslintDisables = parseEslintDisables(processedIndexTsFile)
       const legacyJsEslintDisables = parseEslintDisables(processedLegacyJsFile)
-      expect(indexTsEslintDisables.length).toEqual(0)
+      expect(indexTsEslintDisables.length).toEqual(1) // The example has already a line disabled
       expect(legacyJsEslintDisables.length).toEqual(0)
     })
   })
