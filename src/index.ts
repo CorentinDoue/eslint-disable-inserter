@@ -16,7 +16,7 @@ export default function (rawEslintOutput: string, options: Options) {
       if (options.dryRun) {
         console.log("dry run for file")
       } else {
-        updateFile(result)
+        updateFile(result, options.addFixMe)
       }
     })
   } catch (e) {

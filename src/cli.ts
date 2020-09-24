@@ -14,13 +14,20 @@ const cli = meow(
     )}
 
   Options
-    --dry-run, -d ${chalk.gray("Print files without changing them")}
+    --dry-run,    -d ${chalk.gray("Print files without changing them")}
+    --add-fix-me, -f ${chalk.gray(
+      `Add a ${chalk.yellow("// FIXME")} comment along with the eslint ignores`,
+    )}
 `,
   {
     flags: {
       dryRun: {
         type: "boolean",
         alias: "d",
+      },
+      addFixMe: {
+        type: "boolean",
+        alias: "f",
       },
     },
   },
