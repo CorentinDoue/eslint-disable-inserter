@@ -1,6 +1,7 @@
 import { exec } from "child_process"
 import { promisify } from "util"
 import path from "path"
+import { getDisabledErrors } from "../prependRuleIdsAtLines"
 
 const asyncExec = promisify(exec)
 
@@ -67,14 +68,12 @@ type EslintDisable = {
 }
 export const parseEslintDisables = (file: string): EslintDisable[] => {
   const lines = file.split("\n")
-  const reg = /\/\/ eslint-disable-next-line (.*)/
   return lines.reduce((eslintDisables: EslintDisable[], line, index) => {
-    const eslintDisableInLine = reg.exec(line)
-    if (eslintDisableInLine) {
-      const errors = eslintDisableInLine[1]
+    const errors = getDisabledErrors(line)
+    if (errors.length > 0) {
       eslintDisables.push({
         line: index + 1,
-        errors: errors.split(",").map((error) => error.trim()),
+        errors,
       })
     }
     return eslintDisables
