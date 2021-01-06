@@ -1,10 +1,10 @@
 {
-  "name": "eslint-ignore-inserter",
-  "version": "0.1.2",
+  "name": "eslint-disable-inserter",
+  "version": "0.1.0",
   "main": "dist/index.js",
   "license": "MIT",
-  "homepage": "https://github.com/stevenpetryk/eslint-ignore-inserter",
-  "author": "Steven Petryk",
+  "homepage": "https://github.com/CorentinDoue/eslint-ignore-inserter",
+  "author": "Steven Petryk and Corentin Doué",
   "scripts": {
     "clean-dist": "rm -rf dist && mkdir dist && cp src/eslint.schema.json dist",
     "start": "tsc --watch",
