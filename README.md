@@ -24,7 +24,7 @@ function example() {
 Assuming you have the ESLint `indent` rule turned on, running this...
 
 ```bash
-eslint --format json . | eslint-ignore-inserter
+eslint --format json . | eslint-disable-inserter
 ```
 
 ... yields this:
@@ -40,7 +40,7 @@ function example() {
 ## Installation
 
 ```
-$ yarn add --dev eslint-ignore-inserter
+$ yarn add --dev eslint-disable-inserter
 ```
 
 Then, in your `package.json`, you can do something like this:
@@ -48,7 +48,7 @@ Then, in your `package.json`, you can do something like this:
 ```json
 {
   "scripts": {
-    "eslint:insert-ignores": "eslint --format json . | eslint-ignore-inserter"
+    "eslint:insert-disbales": "eslint --format json . | eslint-disbale-inserter"
   }
 }
 ```
@@ -62,7 +62,7 @@ print the modified files to stdout for you to inspect.
 
 ## Add FIXME to be more explicit
 
-The `--add-fix-me` / `-f` flag will add `// FIXME` along with the `// eslint-ignore`
+The `--add-fix-me` / `-f` flag will add `// FIXME` along with the `// eslint-disable-next-line`
 ## License
 
 MIT

@@ -1,6 +1,6 @@
 {
   "name": "eslint-disable-inserter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "license": "MIT",
   "homepage": "https://github.com/CorentinDoue/eslint-ignore-inserter",
@@ -14,7 +14,7 @@
     "prettier": "prettier . --write"
   },
   "bin": {
-    "eslint-ignore-inserter": "dist/cli.js"
+    "eslint-disable-inserter": "dist/cli.js"
   },
   "husky": {
     "hooks": {
