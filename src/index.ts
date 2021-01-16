@@ -23,7 +23,7 @@ export default function (rawEslintOutput: string, options: Options) {
     if (e instanceof SyntaxError) {
       console.error(
         chalk.red(
-          "eslint-ignore-inserter: Failed to parse ESLint output as JSON.",
+          "eslint-disable-inserter: Failed to parse ESLint output as JSON.",
         ),
         chalk.red("\n\n×"),
         e.toString(),
@@ -31,7 +31,7 @@ export default function (rawEslintOutput: string, options: Options) {
     } else if (e instanceof ValidationError) {
       console.error(
         chalk.red(
-          "eslint-ignore-inserter: ESLint output does not match expected schema.",
+          "eslint-disable-inserter: ESLint output does not match expected schema.",
         ),
         chalk.red("\n\n×"),
         e.toString(),
