@@ -34,6 +34,8 @@ jobs:
 
       - run: yarn test
 
+      - run: chmod 755 ./dist/cli.js
+
       - run: yarn test:integration
 
   create-release:
