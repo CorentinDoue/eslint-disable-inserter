@@ -29,6 +29,7 @@
     "meow": "^7.1.1"
   },
   "devDependencies": {
+    "@semantic-release/git": "^9.0.0",
     "@types/chalk": "^2.2.0",
     "@types/fs-extra": "^9.0.1",
     "@types/get-stdin": "^7.0.0",
@@ -39,6 +40,7 @@
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "prettier": "^2.1.2",
+    "semantic-release": "^17.3.3",
     "ts-jest": "^26.3.0",
     "typescript": "^4.0.3"
   }
