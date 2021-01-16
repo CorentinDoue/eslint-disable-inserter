@@ -18,14 +18,14 @@ export const installExampleDependencies = async (): Promise<void> => {
 }
 
 export const buildEslintDisableInserter = async (): Promise<void> => {
-  console.log("Build eslint-ignore-inserter...")
+  console.log("Build eslint-disable-inserter...")
   await asyncExec("yarn tsc")
 }
 
 export const linkEslintDisableInserter = async (): Promise<void> => {
-  console.log("Link eslint-ignore-inserter to example...")
+  console.log("Link eslint-disable-inserter to example...")
   await asyncExec("yarn link")
-  await asyncExec("yarn link eslint-ignore-inserter", { cwd: pathToExample })
+  await asyncExec("yarn link eslint-disable-inserter", { cwd: pathToExample })
 }
 
 export const executeEslintDisableInserterInExample = async (
@@ -37,7 +37,7 @@ export const executeEslintDisableInserterInExample = async (
 }> => {
   try {
     const { stdout, stderr } = await asyncExec(
-      `yarn insert-ignore ${options}`,
+      `yarn insert-disable ${options}`,
       {
         cwd: pathToExample,
       },

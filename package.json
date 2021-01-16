@@ -1,10 +1,10 @@
 {
-  "name": "eslint-ignore-inserter",
-  "version": "0.1.2",
+  "name": "eslint-disable-inserter",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "license": "MIT",
-  "homepage": "https://github.com/stevenpetryk/eslint-ignore-inserter",
-  "author": "Steven Petryk",
+  "homepage": "https://github.com/CorentinDoue/eslint-disable-inserter",
+  "author": "Steven Petryk and Corentin Doué",
   "scripts": {
     "clean-dist": "rm -rf dist && mkdir dist && cp src/eslint.schema.json dist",
     "start": "tsc --watch",
@@ -14,7 +14,7 @@
     "prettier": "prettier . --write"
   },
   "bin": {
-    "eslint-ignore-inserter": "dist/cli.js"
+    "eslint-disable-inserter": "dist/cli.js"
   },
   "husky": {
     "hooks": {
@@ -29,6 +29,7 @@
     "meow": "^7.1.1"
   },
   "devDependencies": {
+    "@semantic-release/git": "^9.0.0",
     "@types/chalk": "^2.2.0",
     "@types/fs-extra": "^9.0.1",
     "@types/get-stdin": "^7.0.0",
@@ -39,6 +40,7 @@
     "husky": "^4.3.0",
     "jest": "^26.4.2",
     "prettier": "^2.1.2",
+    "semantic-release": "^17.3.3",
     "ts-jest": "^26.3.0",
     "typescript": "^4.0.3"
   }

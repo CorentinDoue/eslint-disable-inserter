@@ -1,0 +1,76 @@
+name: CI-CD
+
+on:
+  push:
+    branches:
+      - "**"
+
+jobs:
+  test:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Bind yarn cach with github cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - run: yarn install --frozen-lockfile
+
+      - run: yarn prettier
+
+      - run: yarn test
+
+      - run: chmod 755 ./dist/cli.js
+
+      - run: yarn test:integration
+
+  create-release:
+    if: "!contains(github.event.head_commit.message, 'skip ci') && github.ref == 'refs/heads/master'"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12]
+    needs: [test]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Bind yarn cach with github cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Semantic Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn semantic-release

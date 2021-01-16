@@ -623,7 +623,7 @@ eslint-config-prettier@^6.11.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-ignore-inserter@^0.1.2:
+eslint-disable-inserter@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/eslint-ignore-inserter/-/eslint-ignore-inserter-0.1.2.tgz#ca6e38f6d45f6826d8f167bbf43253b1528d5bd0"
   integrity sha512-WZhP0TBe3iU3gKQKb3XMJR8GINQSnrCJYvx/enPHwvfdguUlzg7gD7Vc/myj/U8oS2jCYNXhrR1ufW6UCNWI1w==

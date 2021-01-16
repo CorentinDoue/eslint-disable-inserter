@@ -10,7 +10,7 @@ const cli = meow(
   `
   Usage
     $ eslint --format json . | ${chalk.green(
-      "eslint-ignore-inserter [options]",
+      "eslint-disable-inserter [options]",
     )}
 
   Options
