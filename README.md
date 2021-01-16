@@ -1,6 +1,6 @@
 # eslint-disable-inserter
 
-This is a fork from [eslint-ignore-inserter](https://github.com/stevenpetryk/eslint-ignore-inserter) which is no more maintained
+This is an up to date fork from [eslint-ignore-inserter](https://github.com/stevenpetryk/eslint-ignore-inserter) which is no more maintained.
 
 
 When moving to a new ESLint config, or when adopting ESLint for the first time,
@@ -9,6 +9,8 @@ it's common to have tons of violations that you want to silence for now.
 This library exposes a helpful utility, `eslint-disable-inserter`, that will
 do all the heavy lifting, and insert `// eslint-disable-next-line ...` comments
 into your code.
+
+This utility is idempotent, so it can be used each time you add a new ESlint rule.
 
 ## Example (Before/After)
 
