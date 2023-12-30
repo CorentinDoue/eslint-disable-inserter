@@ -1,7 +1,7 @@
 import { exec } from "child_process"
 import { promisify } from "util"
 import path from "path"
-import { getDisabledErrors, isFixMe } from "../prependRuleIdsAtLines"
+import { containsFixMe, parseDisabledLine } from "../prependRuleIdsAtLines"
 
 const asyncExec = promisify(exec)
 
@@ -9,6 +9,7 @@ export const pathToExample = path.join("example")
 const pathToExampleSrc = path.join(pathToExample, "src")
 export const indexTsPath = path.join(pathToExampleSrc, "index.ts")
 export const legacyJsPath = path.join(pathToExampleSrc, "legacy-file.js")
+export const componentTsxPath = path.join(pathToExampleSrc, "component.tsx")
 
 export const installExampleDependencies = async (): Promise<void> => {
   console.log("Install example dependencies...")
@@ -24,8 +25,7 @@ export const buildEslintDisableInserter = async (): Promise<void> => {
 
 export const linkEslintDisableInserter = async (): Promise<void> => {
   console.log("Link eslint-disable-inserter to example...")
-  await asyncExec("yarn link")
-  await asyncExec("yarn link eslint-disable-inserter", { cwd: pathToExample })
+  await asyncExec("yarn link ..", { cwd: pathToExample })
 }
 
 export const executeEslintDisableInserterInExample = async (
@@ -33,7 +33,7 @@ export const executeEslintDisableInserterInExample = async (
 ): Promise<{
   stdout?: string
   stderr?: string
-  error?: Error
+  error?: unknown
 }> => {
   try {
     const { stdout, stderr } = await asyncExec(
@@ -44,13 +44,13 @@ export const executeEslintDisableInserterInExample = async (
     )
     return { stdout, stderr }
   } catch (error) {
-    return error
+    return { error }
   }
 }
 
 export const executeEslintInExample = async (): Promise<{
   stderr?: string
-  error?: Error
+  error?: unknown
 }> => {
   try {
     const { stderr } = await asyncExec(`yarn lint`, {
@@ -58,7 +58,7 @@ export const executeEslintInExample = async (): Promise<{
     })
     return { stderr }
   } catch (error) {
-    return error
+    return { error }
   }
 }
 
@@ -69,7 +69,7 @@ type EslintDisable = {
 export const parseEslintDisables = (file: string): EslintDisable[] => {
   const lines = file.split("\n")
   return lines.reduce((eslintDisables: EslintDisable[], line, index) => {
-    const errors = getDisabledErrors(line)
+    const { errors } = parseDisabledLine(line)
     if (errors.length > 0) {
       eslintDisables.push({
         line: index + 1,
@@ -86,7 +86,7 @@ type FixMe = {
 export const parseFixMes = (file: string): FixMe[] => {
   const lines = file.split("\n")
   return lines.reduce<FixMe[]>((fixMes, line, index) => {
-    if (isFixMe(line)) {
+    if (containsFixMe(line)) {
       fixMes.push({
         line: index + 1,
       })

@@ -7,7 +7,9 @@
     "outDir": "dist",
     "baseUrl": ".",
     "strict": true,
-    "allowJs": true
+    "allowJs": true,
+    "jsx": "react",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
