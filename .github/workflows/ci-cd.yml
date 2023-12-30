@@ -24,11 +24,11 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
+      - run: yarn build
+
       - run: yarn prettier
 
       - run: yarn test
-
-      - run: yarn test:type
 
       - run: chmod 755 ./dist/cli.js
 
@@ -53,6 +53,8 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
+
+      - run: yarn build
 
       - name: Semantic Release
         env:

@@ -2,3 +2,4 @@ src
 example
 yarn.lock
 tsconfig.json
+.yarn
