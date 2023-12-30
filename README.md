@@ -90,6 +90,14 @@ print the modified files to stdout for you to inspect.
 
 The `--no-fix-me` flag will to prevent addition of `-- FIXME` along with the `eslint-disable-next-line` comment
 
+## Special rules handled
+
+### `max-lines`
+
+The max lines error is not tied to a specific line of code but at a position in the file. 
+When encountered, the comment will be inserted at the right position in the file. 
+Not just before the line that triggered the error as it's done with the other rules.
+
 ## License
 
 MIT

@@ -238,4 +238,50 @@ function App() {
       ).toBe(expected)
     })
   })
+  describe("max-lines rule", () => {
+    test("adds the comment at the right place", () => {
+      const source = ["1", "2", "3"].join("\n")
+      const expected = [
+        "1",
+        "// eslint-disable-next-line max-lines -- FIXME",
+        "2",
+        "3",
+      ].join("\n")
+
+      expect(
+        prependRuleIdsAtLines({
+          source: createSourceFile(source),
+          insertions: {
+            3: new Set(["max-lines"]),
+          },
+          fixMe: true,
+        }),
+      ).toBe(expected)
+    })
+    test("adds the comment at the right place with other comments inserted before", () => {
+      const source = ["1", "2", "3", "4"].join("\n")
+      const expected = [
+        "1",
+        "// eslint-disable-next-line max-lines -- FIXME",
+        "// eslint-disable-next-line a -- FIXME",
+        "2",
+        "// eslint-disable-next-line b -- FIXME",
+        "3",
+        "// eslint-disable-next-line c -- FIXME",
+        "4",
+      ].join("\n")
+
+      expect(
+        prependRuleIdsAtLines({
+          source: createSourceFile(source),
+          insertions: {
+            2: new Set(["a"]),
+            3: new Set(["max-lines", "b"]),
+            4: new Set(["c"]),
+          },
+          fixMe: true,
+        }),
+      ).toBe(expected)
+    })
+  })
 })

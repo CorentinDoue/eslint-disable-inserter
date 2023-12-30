@@ -61,7 +61,7 @@ describe("Integration test", () => {
       )
       expect(indexTsEslintDisables.length).toEqual(3)
       expect(legacyJsEslintDisables.length).toEqual(1)
-      expect(componentTsxEslintDisables.length).toEqual(3)
+      expect(componentTsxEslintDisables.length).toEqual(4)
     })
     it("adds FIXME", async () => {
       const indexTsFixMes = parseFixMes(processedIndexTsFile)
@@ -69,7 +69,7 @@ describe("Integration test", () => {
       const componentTsxFixMes = parseFixMes(processedComponentTsxFile)
       expect(indexTsFixMes.length).toEqual(3)
       expect(legacyJsFixMes.length).toEqual(1)
-      expect(componentTsxFixMes.length).toEqual(3)
+      expect(componentTsxFixMes.length).toEqual(4)
     })
     it("fix eslint issues", async () => {
       const {
@@ -108,7 +108,7 @@ describe("Integration test", () => {
       )
       expect(indexTsEslintDisables.length).toEqual(3)
       expect(legacyJsEslintDisables.length).toEqual(1)
-      expect(componentTsxEslintDisables.length).toEqual(3)
+      expect(componentTsxEslintDisables.length).toEqual(4)
     })
     it("does not add FIXME", async () => {
       const indexTsFixMes = parseFixMes(processedIndexTsFile)

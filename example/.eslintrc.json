@@ -20,7 +20,8 @@
     "curly": ["error", "all"],
     "eqeqeq": ["error", "smart"],
     "no-shadow": ["error"],
-    "prefer-const": "error"
+    "prefer-const": "error",
+    "max-lines": ["error", 10]
   },
   "parser": "@typescript-eslint/parser",
   "settings": {

@@ -46,9 +46,19 @@ export default function prependRuleIdsAtLines({
 
   let offset = 0
 
-  Object.entries(insertions).forEach(([lineNumber, ruleIds]) => {
+  const applyRulesToLine = ({
+    lineNumber,
+    ruleIds,
+    skipOffset = false,
+  }: {
+    lineNumber: number
+    ruleIds: Set<string>
+    skipOffset?: boolean
+  }): void => {
+    if (ruleIds.size === 0) return
+
     const adjustedLineNumber = (_offset: number): number =>
-      +lineNumber + _offset - 1
+      lineNumber + (skipOffset ? 0 : _offset) - 1
 
     const indentation = lines[adjustedLineNumber(offset)].match(/^\s*/)![0]
 
@@ -74,7 +84,7 @@ export default function prependRuleIdsAtLines({
       fixMe ? fixMeComment : originalComment
     }`
 
-    const commentIgnoreString = isLineInJSX(source, Number(lineNumber) - 2)
+    const commentIgnoreString = isLineInJSX(source, lineNumber - 2)
       ? `{/* ${ignoreString} */}`
       : `// ${ignoreString}`
 
@@ -91,6 +101,23 @@ export default function prependRuleIdsAtLines({
         indentation + commentIgnoreString,
       )
       offset++
+    }
+  }
+
+  Object.entries(insertions).forEach(([lineNumberString, ruleIds]) => {
+    const lineNumber = Number(lineNumberString)
+    let hasMaxLines = false
+    if (ruleIds.has("max-lines")) {
+      ruleIds.delete("max-lines")
+      hasMaxLines = true
+    }
+    applyRulesToLine({ lineNumber, ruleIds })
+    if (hasMaxLines) {
+      applyRulesToLine({
+        lineNumber: lineNumber - 1,
+        ruleIds: new Set(["max-lines"]),
+        skipOffset: true,
+      })
     }
   })
 
