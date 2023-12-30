@@ -1,4 +1,8 @@
+import ts from "typescript"
 import prependRuleIdsAtLines from "../prependRuleIdsAtLines"
+
+const createSourceFile = (source: string) =>
+  ts.createSourceFile("sample.ts", source, ts.ScriptTarget.Latest)
 
 describe("prependRuleIdsAtLines", () => {
   test("prepends lines", () => {
@@ -13,7 +17,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: {
           2: new Set(["a", "b"]),
           3: new Set(["c"]),
@@ -39,7 +43,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: {
           2: new Set(["b"]),
           4: new Set(["c", "d"]),
@@ -57,7 +61,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: { 1: new Set(["a"]) },
         fixMe: true,
       }),
@@ -76,7 +80,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: {
           2: new Set(["a", "b"]),
           3: new Set(["c"]),
@@ -102,7 +106,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: {
           2: new Set(["b"]),
           4: new Set(["c", "d"]),
@@ -126,7 +130,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: {
           1: new Set(["a"]),
           3: new Set(["c"]),
@@ -150,7 +154,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: {
           1: new Set(["a"]),
           3: new Set(["c"]),
@@ -179,7 +183,7 @@ describe("prependRuleIdsAtLines", () => {
 
     expect(
       prependRuleIdsAtLines({
-        source,
+        source: createSourceFile(source),
         insertions: {
           2: new Set(["a"]),
           4: new Set(["c"]),

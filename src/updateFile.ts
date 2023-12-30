@@ -1,5 +1,6 @@
 import * as fs from "fs-extra"
 import prependRuleIdsAtLines from "./prependRuleIdsAtLines"
+import ts from "typescript"
 
 export default async function updateFile(
   result: NormalizedResult,
@@ -7,9 +8,17 @@ export default async function updateFile(
 ) {
   const { filePath, messagesByLine } = result
 
-  const sourceFile = await fs.readFile(filePath)
+  // Read the TypeScript file content
+  const sourceCode = fs.readFileSync(filePath, "utf-8")
+
+  // Parse the file content
+  const sourceFile = ts.createSourceFile(
+    filePath,
+    sourceCode,
+    ts.ScriptTarget.Latest,
+  )
   const newSource = prependRuleIdsAtLines({
-    source: sourceFile.toString(),
+    source: sourceFile,
     insertions: messagesByLine,
     fixMe,
   })

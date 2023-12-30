@@ -1,3 +1,5 @@
+import ts from "typescript"
+
 export const parseDisabledLine = (
   line: string,
 ): { isDisabled: boolean; errors: string[]; comments: string } => {
@@ -25,11 +27,11 @@ export default function prependRuleIdsAtLines({
   insertions,
   fixMe,
 }: {
-  source: string
+  source: ts.SourceFile
   insertions: RuleIdsByLine
   fixMe: boolean
 }) {
-  let lines = source.split("\n")
+  let lines = source.text.split("\n")
 
   let offset = 0
 
