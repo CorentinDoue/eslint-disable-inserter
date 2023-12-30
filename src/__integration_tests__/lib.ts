@@ -9,6 +9,7 @@ export const pathToExample = path.join("example")
 const pathToExampleSrc = path.join(pathToExample, "src")
 export const indexTsPath = path.join(pathToExampleSrc, "index.ts")
 export const legacyJsPath = path.join(pathToExampleSrc, "legacy-file.js")
+export const componentTsxPath = path.join(pathToExampleSrc, "component.tsx")
 
 export const installExampleDependencies = async (): Promise<void> => {
   console.log("Install example dependencies...")

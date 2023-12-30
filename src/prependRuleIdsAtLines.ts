@@ -1,15 +1,26 @@
 import ts from "typescript"
+import { isLineInJSX } from "./isLineInJSX"
 
 export const parseDisabledLine = (
   line: string,
 ): { isDisabled: boolean; errors: string[]; comments: string } => {
   const reg = /\/\/ eslint-disable-next-line (.*)/
-  const isLineEslintDisabled = reg.exec(line)
-  if (!isLineEslintDisabled) {
+  const regJsx = /\{\/\* eslint-disable-next-line (.*)\*\/}/
+  const lineEslintDisabledRegexResult = reg.exec(line)
+  const lineEslintDisabledInJsxRegexResult = regJsx.exec(line)
+  if (!lineEslintDisabledRegexResult && !lineEslintDisabledInJsxRegexResult) {
     return { isDisabled: false, errors: [], comments: "" }
   }
+  if (lineEslintDisabledRegexResult && lineEslintDisabledInJsxRegexResult) {
+    throw new Error(
+      `Line ${line} contains both a JSX and a non-JSX eslint-disable-next-line comment. This should never happen.`,
+    )
+  }
+  const regexResult =
+    lineEslintDisabledRegexResult ??
+    (lineEslintDisabledInJsxRegexResult as RegExpExecArray) // one of them is not null
 
-  const [errors, comments] = isLineEslintDisabled[1].split("--")
+  const [errors, comments] = regexResult[1].split("--")
   return {
     isDisabled: true,
     errors: errors.split(",").map((error) => error.trim()),
@@ -58,18 +69,27 @@ export default function prependRuleIdsAtLines({
     const originalComment = comments === "" ? "" : ` -- ${comments}`
 
     const ruleList = Array.from(ruleIds).join(", ")
-    const ignoreString = `// eslint-disable-next-line ${ruleList}${
+
+    const ignoreString = `eslint-disable-next-line ${ruleList}${
       fixMe ? fixMeComment : originalComment
     }`
+
+    const commentIgnoreString = isLineInJSX(source, Number(lineNumber) - 2)
+      ? `{/* ${ignoreString} */}`
+      : `// ${ignoreString}`
 
     if (isDisabled) {
       lines.splice(
         adjustedLineNumber(offset) - 1,
         1,
-        indentation + ignoreString,
+        indentation + commentIgnoreString,
       )
     } else {
-      lines.splice(adjustedLineNumber(offset), 0, indentation + ignoreString)
+      lines.splice(
+        adjustedLineNumber(offset),
+        0,
+        indentation + commentIgnoreString,
+      )
       offset++
     }
   })

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint --quiet 'src/**/*.{js,ts}'",
-    "insert-disable": "eslint --quiet 'src/**/*.{js,ts}' --format json | eslint-disable-inserter"
+    "lint": "eslint --quiet 'src/**/*.{js,ts,tsx}'",
+    "insert-disable": "eslint --quiet 'src/**/*.{js,ts,tsx}' --format json | eslint-disable-inserter"
   },
   "devDependencies": {
     "@types/react": "^18.2.46",

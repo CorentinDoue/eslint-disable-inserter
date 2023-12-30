@@ -2,7 +2,13 @@ import ts from "typescript"
 import prependRuleIdsAtLines from "../prependRuleIdsAtLines"
 
 const createSourceFile = (source: string) =>
-  ts.createSourceFile("sample.ts", source, ts.ScriptTarget.Latest)
+  ts.createSourceFile(
+    "sample.ts",
+    source,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  )
 
 describe("prependRuleIdsAtLines", () => {
   test("prepends lines", () => {
@@ -163,33 +169,73 @@ describe("prependRuleIdsAtLines", () => {
       }),
     ).toBe(expected)
   })
-  test("adds jsx comment in jsx files", () => {
-    const source = `function App() {
+  describe("jsx", () => {
+    test("adds jsx comment in jsx files", () => {
+      const source = `function App() {
   return (
     <div>
       <p>Hello, World!</p>
     </div>
   );
 }`
-    const expected = `function App() {
-  // eslint-disable-next-line a -- FIXME
+      const expected = `// eslint-disable-next-line a -- FIXME
+function App() {
+  // eslint-disable-next-line b -- FIXME
+  return (
+    {/* eslint-disable-next-line c -- FIXME */}
+    <div>
+      {/* eslint-disable-next-line d -- FIXME */}
+      <p>Hello, World!</p>
+    {/* eslint-disable-next-line e -- FIXME */}
+    </div>
+  {/* eslint-disable-next-line f -- FIXME */}
+  );
+// eslint-disable-next-line g -- FIXME
+}`
+
+      expect(
+        prependRuleIdsAtLines({
+          source: createSourceFile(source),
+          insertions: {
+            1: new Set(["a"]),
+            2: new Set(["b"]),
+            3: new Set(["c"]),
+            4: new Set(["d"]),
+            5: new Set(["e"]),
+            6: new Set(["f"]),
+            7: new Set(["g"]),
+          },
+          fixMe: true,
+        }),
+      ).toBe(expected)
+    })
+    test("adds jsx comment in jsx files with existing comments", () => {
+      const source = `function App() {
   return (
     <div>
-      {/* eslint-disable-next-line c -- FIXME */}
+      {/* eslint-disable-next-line b -- my comment */}
+      <p>Hello, World!</p>
+    </div>
+  );
+}`
+      const expected = `function App() {
+  return (
+    <div>
+      {/* eslint-disable-next-line c, b -- FIXME my comment */}
       <p>Hello, World!</p>
     </div>
   );
 }`
 
-    expect(
-      prependRuleIdsAtLines({
-        source: createSourceFile(source),
-        insertions: {
-          2: new Set(["a"]),
-          4: new Set(["c"]),
-        },
-        fixMe: true,
-      }),
-    ).toBe(expected)
+      expect(
+        prependRuleIdsAtLines({
+          source: createSourceFile(source),
+          insertions: {
+            5: new Set(["c"]),
+          },
+          fixMe: true,
+        }),
+      ).toBe(expected)
+    })
   })
 })

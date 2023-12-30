@@ -16,6 +16,8 @@ export default async function updateFile(
     filePath,
     sourceCode,
     ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
   )
   const newSource = prependRuleIdsAtLines({
     source: sourceFile,
