@@ -24,8 +24,7 @@ export const buildEslintDisableInserter = async (): Promise<void> => {
 
 export const linkEslintDisableInserter = async (): Promise<void> => {
   console.log("Link eslint-disable-inserter to example...")
-  await asyncExec("yarn link")
-  await asyncExec("yarn link eslint-disable-inserter", { cwd: pathToExample })
+  await asyncExec("yarn link ..", { cwd: pathToExample })
 }
 
 export const executeEslintDisableInserterInExample = async (

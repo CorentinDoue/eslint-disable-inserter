@@ -12,7 +12,7 @@
     "clinter": "^1.7.0",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-disable-inserter": "^0.1.2",
+    "eslint-disable-inserter": "*",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
     "prettier": "^2.1.2",
