@@ -1,8 +1,5 @@
 # eslint-disable-inserter
 
-This is an up to date fork from [eslint-ignore-inserter](https://github.com/stevenpetryk/eslint-ignore-inserter) which is no more maintained.
-
-
 When moving to a new ESLint config, or when adopting ESLint for the first time,
 it's common to have tons of violations that you want to silence for now.
 
@@ -34,7 +31,7 @@ eslint --format json . | eslint-disable-inserter
 ```js
 function example() {
   console.log("Hello")
-  // eslint-disable-next-line indent
+  // eslint-disable-next-line indent -- FIXME
     console.log("World!")
 }
 ```
@@ -50,7 +47,7 @@ Then, in your `package.json`, you can do something like this:
 ```json
 {
   "scripts": {
-    "eslint:insert-disbales": "eslint --format json . | eslint-disbale-inserter"
+    "eslint:insert-disables": "eslint --format json . | eslint-disable-inserter"
   }
 }
 ```
@@ -62,9 +59,9 @@ Alternatively, you can install it globally and do the piping in your shell.
 The `--dry-run` / `-d` flag will prevent any filesystem writes, and will instead
 print the modified files to stdout for you to inspect.
 
-## Add FIXME to be more explicit
+## Prevent FIXME addition
 
-The `--add-fix-me` / `-f` flag will add `// FIXME` along with the `// eslint-disable-next-line`
+The `--no-fix-me` / `-i` flag will to prevent addition of `-- FIXME` along with the `// eslint-disable-next-line`
 ## License
 
 MIT

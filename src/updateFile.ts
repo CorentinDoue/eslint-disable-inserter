@@ -3,7 +3,7 @@ import prependRuleIdsAtLines from "./prependRuleIdsAtLines"
 
 export default async function updateFile(
   result: NormalizedResult,
-  addFixMe: boolean,
+  fixMe: boolean,
 ) {
   const { filePath, messagesByLine } = result
 
@@ -11,7 +11,7 @@ export default async function updateFile(
   const newSource = prependRuleIdsAtLines({
     source: sourceFile.toString(),
     insertions: messagesByLine,
-    addFixMe,
+    fixMe,
   })
 
   await fs.writeFile(filePath, newSource)

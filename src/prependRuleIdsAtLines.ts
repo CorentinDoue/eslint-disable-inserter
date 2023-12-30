@@ -1,29 +1,33 @@
-export const getDisabledErrors = (line: string): string[] => {
+export const parseDisabledLine = (
+  line: string,
+): { isDisabled: boolean; errors: string[]; comments: string } => {
   const reg = /\/\/ eslint-disable-next-line (.*)/
   const isLineEslintDisabled = reg.exec(line)
   if (!isLineEslintDisabled) {
-    return []
+    return { isDisabled: false, errors: [], comments: "" }
   }
 
-  const errors = isLineEslintDisabled[1]
-  return errors.split(",").map((error) => error.trim())
+  const [errors, comments] = isLineEslintDisabled[1].split("--")
+  return {
+    isDisabled: true,
+    errors: errors.split(",").map((error) => error.trim()),
+    comments: comments ? comments.trim() : "",
+  }
 }
 
-const fixMeString = "// FIXME"
+const fixMeString = "FIXME"
 
-export const isFixMe = (line: string): boolean => {
-  const reg = /\/\/ FIXME/
-  return Boolean(reg.exec(line))
-}
+export const containsFixMe = (line: string): boolean =>
+  Boolean(line.includes(fixMeString))
 
 export default function prependRuleIdsAtLines({
   source,
   insertions,
-  addFixMe,
+  fixMe,
 }: {
   source: string
   insertions: RuleIdsByLine
-  addFixMe: boolean
+  fixMe: boolean
 }) {
   let lines = source.split("\n")
 
@@ -32,43 +36,37 @@ export default function prependRuleIdsAtLines({
   Object.entries(insertions).forEach(([lineNumber, ruleIds]) => {
     const adjustedLineNumber = (_offset: number): number =>
       +lineNumber + _offset - 1
-    //
-    // if (addFixMe) {
-    //   if ()
-    // }
 
     const indentation = lines[adjustedLineNumber(offset)].match(/^\s*/)![0]
 
-    const alreadyDisabledErrors = getDisabledErrors(
-      lines[adjustedLineNumber(offset) - 1],
-    )
-    const isLineAlreadyDisabled = alreadyDisabledErrors.length > 0
-    if (isLineAlreadyDisabled) {
+    const {
+      isDisabled,
+      errors: alreadyDisabledErrors,
+      comments,
+    } = parseDisabledLine(lines[adjustedLineNumber(offset) - 1])
+    if (isDisabled) {
       alreadyDisabledErrors.forEach((error) => ruleIds.add(error))
     }
 
-    const ruleList = Array.from(ruleIds).join(", ")
-    const ignoreString = `// eslint-disable-next-line ${ruleList}`
+    const fixMeComment = ` -- ${
+      containsFixMe(comments)
+        ? comments
+        : [fixMeString, comments].filter(Boolean).join(" ")
+    }`
+    const originalComment = comments === "" ? "" : ` -- ${comments}`
 
-    if (isLineAlreadyDisabled) {
-      if (addFixMe && !isFixMe(lines[adjustedLineNumber(offset) - 2])) {
-        lines.splice(
-          adjustedLineNumber(offset) - 1,
-          0,
-          indentation + fixMeString,
-        )
-        offset++
-      }
+    const ruleList = Array.from(ruleIds).join(", ")
+    const ignoreString = `// eslint-disable-next-line ${ruleList}${
+      fixMe ? fixMeComment : originalComment
+    }`
+
+    if (isDisabled) {
       lines.splice(
         adjustedLineNumber(offset) - 1,
         1,
         indentation + ignoreString,
       )
     } else {
-      if (addFixMe && !isFixMe(lines[adjustedLineNumber(offset) - 1])) {
-        lines.splice(adjustedLineNumber(offset), 0, indentation + fixMeString)
-        offset++
-      }
       lines.splice(adjustedLineNumber(offset), 0, indentation + ignoreString)
       offset++
     }

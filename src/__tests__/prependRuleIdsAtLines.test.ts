@@ -5,9 +5,9 @@ describe("prependRuleIdsAtLines", () => {
     const source = ["1", "2", "3"].join("\n")
     const expected = [
       "1",
-      "// eslint-disable-next-line a, b",
+      "// eslint-disable-next-line a, b -- FIXME",
       "2",
-      "// eslint-disable-next-line c",
+      "// eslint-disable-next-line c -- FIXME",
       "3",
     ].join("\n")
 
@@ -18,7 +18,7 @@ describe("prependRuleIdsAtLines", () => {
           2: new Set(["a", "b"]),
           3: new Set(["c"]),
         },
-        addFixMe: false,
+        fixMe: true,
       }),
     ).toBe(expected)
   })
@@ -31,9 +31,9 @@ describe("prependRuleIdsAtLines", () => {
       "4",
     ].join("\n")
     const expected = [
-      "// eslint-disable-next-line b, a",
+      "// eslint-disable-next-line b, a -- FIXME",
       "2",
-      "// eslint-disable-next-line c, d",
+      "// eslint-disable-next-line c, d -- FIXME",
       "4",
     ].join("\n")
 
@@ -44,32 +44,32 @@ describe("prependRuleIdsAtLines", () => {
           2: new Set(["b"]),
           4: new Set(["c", "d"]),
         },
-        addFixMe: false,
+        fixMe: true,
       }),
     ).toBe(expected)
   })
 
   test('preserves indentation of the "insertee"', () => {
     const source = ["  1"].join("\n")
-    const expected = ["  // eslint-disable-next-line a", "  1"].join("\n")
+    const expected = ["  // eslint-disable-next-line a -- FIXME", "  1"].join(
+      "\n",
+    )
 
     expect(
       prependRuleIdsAtLines({
         source,
         insertions: { 1: new Set(["a"]) },
-        addFixMe: false,
+        fixMe: true,
       }),
     ).toBe(expected)
   })
 
-  test("adds FIXME with eslint disables", () => {
+  test("does not add FIXME with eslint disables", () => {
     const source = ["1", "2", "3"].join("\n")
     const expected = [
       "1",
-      "// FIXME",
       "// eslint-disable-next-line a, b",
       "2",
-      "// FIXME",
       "// eslint-disable-next-line c",
       "3",
     ].join("\n")
@@ -81,24 +81,22 @@ describe("prependRuleIdsAtLines", () => {
           2: new Set(["a", "b"]),
           3: new Set(["c"]),
         },
-        addFixMe: true,
+        fixMe: false,
       }),
     ).toBe(expected)
   })
 
-  test("adds FIXME if there are eslint disables but no FIXME", () => {
+  test("keeps FIXME if fixMe is false", () => {
     const source = [
       "// eslint-disable-next-line a",
       "2",
-      "// eslint-disable-next-line c",
+      "// eslint-disable-next-line c -- FIXME my comment",
       "4",
     ].join("\n")
     const expected = [
-      "// FIXME",
       "// eslint-disable-next-line b, a",
       "2",
-      "// FIXME",
-      "// eslint-disable-next-line c, d",
+      "// eslint-disable-next-line c, d -- FIXME my comment",
       "4",
     ].join("\n")
 
@@ -109,24 +107,20 @@ describe("prependRuleIdsAtLines", () => {
           2: new Set(["b"]),
           4: new Set(["c", "d"]),
         },
-        addFixMe: true,
+        fixMe: false,
       }),
     ).toBe(expected)
   })
   test("doesn't double FIXME", () => {
     const source = [
-      "// FIXME something",
       "2",
-      "// FIXME",
-      "// eslint-disable-next-line b",
+      "// eslint-disable-next-line b -- FIXME something",
       "5",
     ].join("\n")
     const expected = [
-      "// FIXME something",
-      "// eslint-disable-next-line a",
+      "// eslint-disable-next-line a -- FIXME",
       "2",
-      "// FIXME",
-      "// eslint-disable-next-line c, b",
+      "// eslint-disable-next-line c, b -- FIXME something",
       "5",
     ].join("\n")
 
@@ -134,10 +128,34 @@ describe("prependRuleIdsAtLines", () => {
       prependRuleIdsAtLines({
         source,
         insertions: {
-          2: new Set(["a"]),
-          5: new Set(["c"]),
+          1: new Set(["a"]),
+          3: new Set(["c"]),
         },
-        addFixMe: true,
+        fixMe: true,
+      }),
+    ).toBe(expected)
+  })
+  test("handles comments", () => {
+    const source = [
+      "2",
+      "// eslint-disable-next-line b -- my comment",
+      "5",
+    ].join("\n")
+    const expected = [
+      "// eslint-disable-next-line a -- FIXME",
+      "2",
+      "// eslint-disable-next-line c, b -- FIXME my comment",
+      "5",
+    ].join("\n")
+
+    expect(
+      prependRuleIdsAtLines({
+        source,
+        insertions: {
+          1: new Set(["a"]),
+          3: new Set(["c"]),
+        },
+        fixMe: true,
       }),
     ).toBe(expected)
   })

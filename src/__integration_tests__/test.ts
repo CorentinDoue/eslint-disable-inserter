@@ -51,6 +51,12 @@ describe("Integration test", () => {
       expect(indexTsEslintDisables.length).toEqual(3)
       expect(legacyJsEslintDisables.length).toEqual(1)
     })
+    it("adds FIXME", async () => {
+      const indexTsFixMes = parseFixMes(processedIndexTsFile)
+      const legacyJsFixMes = parseFixMes(processedLegacyJsFile)
+      expect(indexTsFixMes.length).toEqual(3)
+      expect(legacyJsFixMes.length).toEqual(1)
+    })
     it("fix eslint issues", async () => {
       const {
         stderr: eslintStderr,
@@ -60,10 +66,10 @@ describe("Integration test", () => {
       expect(eslintError).not.toBeDefined()
     })
   })
-  describe("usage with addFixMe", () => {
+  describe("usage with noFixMe", () => {
     beforeAll(async () => {
       ;({ stdout, stderr, error } = await executeEslintDisableInserterInExample(
-        "--add-fix-me",
+        "--no-fix-me",
       ))
       processedIndexTsFile = (await fs.readFile(indexTsPath)).toString()
       processedLegacyJsFile = (await fs.readFile(legacyJsPath)).toString()
@@ -82,11 +88,11 @@ describe("Integration test", () => {
       expect(indexTsEslintDisables.length).toEqual(3)
       expect(legacyJsEslintDisables.length).toEqual(1)
     })
-    it("adds FIXME", async () => {
+    it("does not add FIXME", async () => {
       const indexTsFixMes = parseFixMes(processedIndexTsFile)
       const legacyJsFixMes = parseFixMes(processedLegacyJsFile)
-      expect(indexTsFixMes.length).toEqual(3)
-      expect(legacyJsFixMes.length).toEqual(1)
+      expect(indexTsFixMes.length).toEqual(1) // The example has already a FIXME
+      expect(legacyJsFixMes.length).toEqual(0)
     })
     it("fix eslint issues", async () => {
       const {

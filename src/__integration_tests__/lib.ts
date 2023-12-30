@@ -1,7 +1,7 @@
 import { exec } from "child_process"
 import { promisify } from "util"
 import path from "path"
-import { getDisabledErrors, isFixMe } from "../prependRuleIdsAtLines"
+import { containsFixMe, parseDisabledLine } from "../prependRuleIdsAtLines"
 
 const asyncExec = promisify(exec)
 
@@ -43,7 +43,7 @@ export const executeEslintDisableInserterInExample = async (
     )
     return { stdout, stderr }
   } catch (error) {
-    return error
+    return { error }
   }
 }
 
@@ -68,7 +68,7 @@ type EslintDisable = {
 export const parseEslintDisables = (file: string): EslintDisable[] => {
   const lines = file.split("\n")
   return lines.reduce((eslintDisables: EslintDisable[], line, index) => {
-    const errors = getDisabledErrors(line)
+    const { errors } = parseDisabledLine(line)
     if (errors.length > 0) {
       eslintDisables.push({
         line: index + 1,
@@ -85,7 +85,7 @@ type FixMe = {
 export const parseFixMes = (file: string): FixMe[] => {
   const lines = file.split("\n")
   return lines.reduce<FixMe[]>((fixMes, line, index) => {
-    if (isFixMe(line)) {
+    if (containsFixMe(line)) {
       fixMes.push({
         line: index + 1,
       })
