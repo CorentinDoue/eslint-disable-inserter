@@ -1,5 +1,10 @@
 # eslint-disable-inserter
 
+Easily insert `eslint-disable-next-line` comments into your code.
+
+[![npm version](https://badge.fury.io/js/eslint-disable-inserter.svg)](https://badge.fury.io/js/eslint-disable-inserter)
+[![CI-CD](https://github.com/CorentinDoue/eslint-disable-inserter/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/CorentinDoue/eslint-disable-inserter/actions/workflows/ci-cd.yml)
+
 When moving to a new ESLint config, or when adopting ESLint for the first time,
 it's common to have tons of violations that you want to silence for now.
 
@@ -97,6 +102,12 @@ The `--no-fix-me` flag will to prevent addition of `-- FIXME` along with the `es
 The max lines error is not tied to a specific line of code but at a position in the file. 
 When encountered, the comment will be inserted at the right position in the file. 
 Not just before the line that triggered the error as it's done with the other rules.
+
+## Keep track of your errors
+
+The aim of this is to help you improve the quality of your code. It's important to have a plan to fix those errors.
+
+I also published a small package to easily keep track of the eslint errors of your codebase: [eslint-disabled-stats](https://www.npmjs.com/package/eslint-disabled-stats)
 
 ## License
 
