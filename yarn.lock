@@ -3157,7 +3157,7 @@ __metadata:
     prettier: ^2.1.2
     semantic-release: ^17.3.3
     ts-jest: ^26.3.0
-    typescript: ^4.0.3
+    typescript: ^5.3.3
   bin:
     eslint-disable-inserter: dist/cli.js
   languageName: unknown
@@ -9613,23 +9613,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "typescript@npm:4.0.3"
+"typescript@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "typescript@npm:5.3.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 94fc80cfbc9a1d1b77d90e536aef8460bdd87e41ebf18116ba77b63cbf18c703c6b761892fd41a3f900d4194c8a35b81aadfb7c89d69eab0eba5fb2556747c47
+  checksum: 2007ccb6e51bbbf6fde0a78099efe04dc1c3dfbdff04ca3b6a8bc717991862b39fd6126c0c3ebf2d2d98ac5e960bcaa873826bb2bb241f14277034148f41f6a2
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.0.3#~builtin<compat/typescript>":
-  version: 4.0.3
-  resolution: "typescript@patch:typescript@npm%3A4.0.3#~builtin<compat/typescript>::version=4.0.3&hash=ed6a74"
+"typescript@patch:typescript@^5.3.3#~builtin<compat/typescript>":
+  version: 5.3.3
+  resolution: "typescript@patch:typescript@npm%3A5.3.3#~builtin<compat/typescript>::version=5.3.3&hash=d73830"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: e9a1dd789450ce217aef4919de578515d3141d53c98f2eee889fdccb95946b083233f8391aba802aa395bae12a58d0710cd9538d993fd762fd8a7332127f8597
+  checksum: f61375590b3162599f0f0d5b8737877ac0a7bc52761dbb585d67e7b8753a3a4c42d9a554c4cc929f591ffcf3a2b0602f65ae3ce74714fd5652623a816862b610
   languageName: node
   linkType: hard
 

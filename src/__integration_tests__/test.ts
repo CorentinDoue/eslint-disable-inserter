@@ -16,7 +16,7 @@ describe("Integration test", () => {
   let originalLegacyJsFile: Buffer
   let stdout: string | undefined
   let stderr: string | undefined
-  let error: Error | undefined
+  let error: unknown | undefined
   let processedIndexTsFile: string
   let processedLegacyJsFile: string
   beforeAll(async () => {

@@ -11,7 +11,8 @@
     "prepare": "yarn run clean-dist && tsc",
     "test": "jest",
     "test:integration": "jest --config jest.integration.config.js --runInBand",
-    "prettier": "prettier . --write"
+    "prettier": "prettier . --write",
+    "test:type": "tsc --noEmit"
   },
   "bin": "dist/cli.js",
   "husky": {
@@ -24,7 +25,8 @@
     "fs-extra": "^9.0.1",
     "get-stdin": "^8.0.0",
     "jsonschema": "^1.2.6",
-    "meow": "^7.1.1"
+    "meow": "^7.1.1",
+    "typescript": "^5.3.3"
   },
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
@@ -39,7 +41,6 @@
     "jest": "^26.4.2",
     "prettier": "^2.1.2",
     "semantic-release": "^17.3.3",
-    "ts-jest": "^26.3.0",
-    "typescript": "^4.0.3"
+    "ts-jest": "^26.3.0"
   }
 }

@@ -32,7 +32,7 @@ export const executeEslintDisableInserterInExample = async (
 ): Promise<{
   stdout?: string
   stderr?: string
-  error?: Error
+  error?: unknown
 }> => {
   try {
     const { stdout, stderr } = await asyncExec(
@@ -49,7 +49,7 @@ export const executeEslintDisableInserterInExample = async (
 
 export const executeEslintInExample = async (): Promise<{
   stderr?: string
-  error?: Error
+  error?: unknown
 }> => {
   try {
     const { stderr } = await asyncExec(`yarn lint`, {
@@ -57,7 +57,7 @@ export const executeEslintInExample = async (): Promise<{
     })
     return { stderr }
   } catch (error) {
-    return error
+    return { error }
   }
 }
 

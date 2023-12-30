@@ -159,4 +159,33 @@ describe("prependRuleIdsAtLines", () => {
       }),
     ).toBe(expected)
   })
+  test("adds jsx comment in jsx files", () => {
+    const source = `function App() {
+  return (
+    <div>
+      <p>Hello, World!</p>
+    </div>
+  );
+}`
+    const expected = `function App() {
+  // eslint-disable-next-line a -- FIXME
+  return (
+    <div>
+      {/* eslint-disable-next-line c -- FIXME */}
+      <p>Hello, World!</p>
+    </div>
+  );
+}`
+
+    expect(
+      prependRuleIdsAtLines({
+        source,
+        insertions: {
+          2: new Set(["a"]),
+          4: new Set(["c"]),
+        },
+        fixMe: true,
+      }),
+    ).toBe(expected)
+  })
 })
