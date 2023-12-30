@@ -13,7 +13,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
+    "plugin:react/recommended"
   ],
   "plugins": ["import"],
   "rules": {
@@ -22,5 +22,10 @@
     "no-shadow": ["error"],
     "prefer-const": "error"
   },
-  "parser": "@typescript-eslint/parser"
+  "parser": "@typescript-eslint/parser",
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
 }
