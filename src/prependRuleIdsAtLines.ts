@@ -33,8 +33,17 @@ const fixMeString = "FIXME"
 export const containsFixMe = (line: string): boolean =>
   Boolean(line.includes(fixMeString))
 
+const refreshSource = (textCode: string): ts.SourceFile =>
+  ts.createSourceFile(
+    "temp.tsx",
+    textCode,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX,
+  )
+
 export default function prependRuleIdsAtLines({
-  source,
+  source: originalSource,
   insertions,
   fixMe,
 }: {
@@ -42,6 +51,7 @@ export default function prependRuleIdsAtLines({
   insertions: RuleIdsByLine
   fixMe: boolean
 }) {
+  let source = originalSource
   let lines = source.text.split("\n")
 
   let offset = 0
@@ -104,22 +114,29 @@ export default function prependRuleIdsAtLines({
     }
   }
 
+  const applyMaxLinesRule = {
+    toApply: false,
+    lineNumber: 0,
+  }
+
   Object.entries(insertions).forEach(([lineNumberString, ruleIds]) => {
     const lineNumber = Number(lineNumberString)
-    let hasMaxLines = false
     if (ruleIds.has("max-lines")) {
       ruleIds.delete("max-lines")
-      hasMaxLines = true
+      applyMaxLinesRule.toApply = true
+      applyMaxLinesRule.lineNumber = lineNumber
     }
     applyRulesToLine({ lineNumber, ruleIds })
-    if (hasMaxLines) {
-      applyRulesToLine({
-        lineNumber: lineNumber - 1,
-        ruleIds: new Set(["max-lines"]),
-        skipOffset: true,
-      })
-    }
   })
+
+  if (applyMaxLinesRule.toApply) {
+    source = refreshSource(lines.join("\n"))
+    applyRulesToLine({
+      lineNumber: applyMaxLinesRule.lineNumber - 1,
+      ruleIds: new Set(["max-lines"]),
+      skipOffset: true,
+    })
+  }
 
   return lines.join("\n")
 }
