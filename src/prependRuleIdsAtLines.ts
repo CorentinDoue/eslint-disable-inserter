@@ -84,7 +84,7 @@ export default function prependRuleIdsAtLines({
       fixMe ? fixMeComment : originalComment
     }`
 
-    const commentIgnoreString = isLineInJSX(source, lineNumber - 2)
+    const commentIgnoreString = isLineInJSX(source, lineNumber - 1)
       ? `{/* ${ignoreString} */}`
       : `// ${ignoreString}`
 

@@ -182,13 +182,13 @@ describe("prependRuleIdsAtLines", () => {
 function App() {
   // eslint-disable-next-line b -- FIXME
   return (
-    {/* eslint-disable-next-line c -- FIXME */}
+    // eslint-disable-next-line c -- FIXME
     <div>
       {/* eslint-disable-next-line d -- FIXME */}
       <p>Hello, World!</p>
     {/* eslint-disable-next-line e -- FIXME */}
     </div>
-  {/* eslint-disable-next-line f -- FIXME */}
+  // eslint-disable-next-line f -- FIXME
   );
 // eslint-disable-next-line g -- FIXME
 }`
@@ -232,6 +232,86 @@ function App() {
           source: createSourceFile(source),
           insertions: {
             5: new Set(["c"]),
+          },
+          fixMe: true,
+        }),
+      ).toBe(expected)
+    })
+    test("adds jsx comment in complex jsx files", () => {
+      const source = `function App() {
+  return (
+    <div
+      name={name}
+      onClick={() => {
+        console.log("clicked")
+        return (
+          <h1>
+            Clicked
+          </h1>
+        )
+      }}
+    >
+      <p>Hello, World!</p>
+    </div>
+  );
+}`
+
+      const expected = `// eslint-disable-next-line a -- FIXME
+function App() {
+  // eslint-disable-next-line b -- FIXME
+  return (
+    // eslint-disable-next-line c -- FIXME
+    <div
+      // eslint-disable-next-line d -- FIXME
+      name={name}
+      // eslint-disable-next-line e -- FIXME
+      onClick={() => {
+        // eslint-disable-next-line f -- FIXME
+        console.log("clicked")
+        // eslint-disable-next-line g -- FIXME
+        return (
+          // eslint-disable-next-line h -- FIXME
+          <h1>
+            {/* eslint-disable-next-line i -- FIXME */}
+            Clicked
+          {/* eslint-disable-next-line j -- FIXME */}
+          </h1>
+        // eslint-disable-next-line k -- FIXME
+        )
+      // eslint-disable-next-line l -- FIXME
+      }}
+    // eslint-disable-next-line m -- FIXME
+    >
+      {/* eslint-disable-next-line n -- FIXME */}
+      <p>Hello, World!</p>
+    {/* eslint-disable-next-line o -- FIXME */}
+    </div>
+  // eslint-disable-next-line p -- FIXME
+  );
+// eslint-disable-next-line q -- FIXME
+}`
+
+      expect(
+        prependRuleIdsAtLines({
+          source: createSourceFile(source),
+          insertions: {
+            1: new Set(["a"]),
+            2: new Set(["b"]),
+            3: new Set(["c"]),
+            4: new Set(["d"]),
+            5: new Set(["e"]),
+            6: new Set(["f"]),
+            7: new Set(["g"]),
+            8: new Set(["h"]),
+            9: new Set(["i"]),
+            10: new Set(["j"]),
+            11: new Set(["k"]),
+            12: new Set(["l"]),
+            13: new Set(["m"]),
+            14: new Set(["n"]),
+            15: new Set(["o"]),
+            16: new Set(["p"]),
+            17: new Set(["q"]),
           },
           fixMe: true,
         }),
