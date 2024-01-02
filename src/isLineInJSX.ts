@@ -1,23 +1,30 @@
 import * as ts from "typescript"
 
-export const isLineInJSX = (node: ts.Node, line: number): boolean => {
-  const { pos, end } = node
-  const { line: startLine } = ts.getLineAndCharacterOfPosition(
-    node.getSourceFile(),
-    pos,
-  )
-  const { line: endLine } = ts.getLineAndCharacterOfPosition(
-    node.getSourceFile(),
-    end,
-  )
+/** Get position at start of zero-indexed line number in the given source file. */
+const getStartOfLinePos = (sourceFile: ts.SourceFile, line: number): number => {
+  return ts.getPositionOfLineAndCharacter(sourceFile, line, 0)
+}
 
-  if (startLine <= line && endLine >= line) {
-    if (ts.isJsxElement(node)) {
-      return true
+export const isLineInJSX = (sourceFile: ts.SourceFile, line: number) => {
+  const pos = getStartOfLinePos(sourceFile, line)
+  const visitor = (node: ts.Node): boolean | undefined => {
+    if (
+      node.pos <= pos &&
+      pos < node.end &&
+      (ts.isJsxElement(node) || ts.isJsxFragment(node))
+    ) {
+      const isJsxTextChild = node.children.some(
+        (child) => ts.isJsxText(child) && child.pos <= pos && pos < child.end,
+      )
+      const isClosingElement =
+        !ts.isJsxFragment(node) && node.closingElement.pos === pos
+      if (isJsxTextChild || isClosingElement) {
+        return true
+      }
     }
+
+    return ts.forEachChild(node, visitor)
   }
 
-  return (
-    ts.forEachChild(node, (childNode) => isLineInJSX(childNode, line)) ?? false
-  )
+  return !!ts.forEachChild(sourceFile, visitor)
 }

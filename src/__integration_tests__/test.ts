@@ -61,7 +61,7 @@ describe("Integration test", () => {
       )
       expect(indexTsEslintDisables.length).toEqual(3)
       expect(legacyJsEslintDisables.length).toEqual(1)
-      expect(componentTsxEslintDisables.length).toEqual(4)
+      expect(componentTsxEslintDisables.length).toEqual(9)
     })
     it("adds FIXME", async () => {
       const indexTsFixMes = parseFixMes(processedIndexTsFile)
@@ -69,7 +69,7 @@ describe("Integration test", () => {
       const componentTsxFixMes = parseFixMes(processedComponentTsxFile)
       expect(indexTsFixMes.length).toEqual(3)
       expect(legacyJsFixMes.length).toEqual(1)
-      expect(componentTsxFixMes.length).toEqual(4)
+      expect(componentTsxFixMes.length).toEqual(8)
     })
     it("fix eslint issues", async () => {
       const {
@@ -108,7 +108,7 @@ describe("Integration test", () => {
       )
       expect(indexTsEslintDisables.length).toEqual(3)
       expect(legacyJsEslintDisables.length).toEqual(1)
-      expect(componentTsxEslintDisables.length).toEqual(4)
+      expect(componentTsxEslintDisables.length).toEqual(9)
     })
     it("does not add FIXME", async () => {
       const indexTsFixMes = parseFixMes(processedIndexTsFile)
@@ -150,7 +150,7 @@ describe("Integration test", () => {
       )
       expect(indexTsEslintDisables.length).toEqual(1) // The example has already a line disabled
       expect(legacyJsEslintDisables.length).toEqual(0)
-      expect(componentTsxEslintDisables.length).toEqual(1) // The example has already a line disabled
+      expect(componentTsxEslintDisables.length).toEqual(2) // The example has already two lines disabled
     })
     it("doesn't add FIXME", async () => {
       const indexTsFixMes = parseFixMes(processedIndexTsFile)
