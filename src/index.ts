@@ -5,6 +5,7 @@ import { ValidationError } from "jsonschema"
 import parseESLintOutput from "./parseESLintOutput"
 import normalizeESLintOutput from "./normalizeESlintOutput"
 import updateFile from "./updateFile"
+import type { Options } from "./types"
 
 export default function (rawEslintOutput: string, options: Options) {
   try {

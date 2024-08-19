@@ -1,5 +1,6 @@
 import ts from "typescript"
 import { isLineInJSX } from "./isLineInJSX"
+import type { RuleIdsByLine } from "./types"
 
 export const parseDisabledLine = (
   line: string,

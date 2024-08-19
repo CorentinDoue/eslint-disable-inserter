@@ -2,6 +2,7 @@ import * as fs from "fs"
 import * as path from "path"
 
 import { Validator } from "jsonschema"
+import type { ESLintResult } from "./types"
 
 const schema = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, "eslint.schema.json")).toString(),

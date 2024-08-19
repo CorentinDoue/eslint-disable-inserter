@@ -1,3 +1,5 @@
+import type { ESLintResult, NormalizedResult, RuleIdsByLine } from "./types"
+
 export default function (eslintOutput: ESLintResult[]): NormalizedResult[] {
   return eslintOutput.map((result) => ({
     filePath: result.filePath,
