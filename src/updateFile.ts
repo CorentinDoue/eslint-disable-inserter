@@ -1,6 +1,7 @@
 import * as fs from "fs-extra"
 import prependRuleIdsAtLines from "./prependRuleIdsAtLines"
 import ts from "typescript"
+import type { NormalizedResult } from "./types"
 
 export default async function updateFile(
   result: NormalizedResult,

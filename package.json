@@ -2,6 +2,7 @@
   "name": "eslint-disable-inserter",
   "version": "0.3.1",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "license": "MIT",
   "homepage": "https://github.com/CorentinDoue/eslint-disable-inserter",
   "author": "Steven Petryk and Corentin Doué",

@@ -5,6 +5,7 @@ import meow from "meow"
 import chalk from "chalk"
 
 import start from "."
+import type { Options } from "./types"
 
 const cli = meow(
   `

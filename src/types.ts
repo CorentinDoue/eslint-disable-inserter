@@ -1,24 +1,24 @@
-type ESLintResult = {
+export type ESLintResult = {
   filePath: string
   messages: ESLintMessage[]
 }
 
-type NormalizedResult = {
+export type NormalizedResult = {
   filePath: string
   messagesByLine: RuleIdsByLine
 }
 
-type RuleIdsByLine = {
+export type RuleIdsByLine = {
   [lineNumber: number]: Set<string>
 }
 
-type ESLintMessage = {
+export type ESLintMessage = {
   ruleId: string
   severity: 0 | 1 | 2
   line: number
 }
 
-type Options = {
+export type Options = {
   dryRun: boolean
   fixMe: boolean
 }
