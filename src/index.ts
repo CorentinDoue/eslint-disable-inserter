@@ -6,6 +6,7 @@ import parseESLintOutput from "./parseESLintOutput"
 import normalizeESLintOutput from "./normalizeESlintOutput"
 import updateFile from "./updateFile"
 import type { Options } from "./types"
+import { formatDryRunMessage } from "./dryRunMessage"
 
 export default function (rawEslintOutput: string, options: Options) {
   try {
@@ -15,7 +16,7 @@ export default function (rawEslintOutput: string, options: Options) {
 
     normalizedResults.forEach((result) => {
       if (options.dryRun) {
-        console.log("dry run for file")
+        console.log(formatDryRunMessage(result))
       } else {
         updateFile(result, options.fixMe)
       }
