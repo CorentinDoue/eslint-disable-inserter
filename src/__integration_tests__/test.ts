@@ -160,5 +160,16 @@ describe("Integration test", () => {
       expect(legacyJsFixMes.length).toEqual(0)
       expect(componentTsxFixMes.length).toEqual(1) // The example has already a FIXME
     })
+    it("explains what would have been done without dry run", () => {
+      expect(stdout).toMatch(
+        /Dry run for file .*\/example\/src\/component.tsx: About to disable 1 rules on 7 lines/,
+      )
+      expect(stdout).toMatch(
+        /Dry run for file .*\/example\/src\/index.ts: About to disable 1 rules on 3 lines/,
+      )
+      expect(stdout).toMatch(
+        /Dry run for file .*\/example\/src\/legacy-file.js: About to disable 2 rules on 1 lines/,
+      )
+    })
   })
 })
